@@ -58,7 +58,7 @@ window.App = {
             let balance = web3.utils.fromWei(
                 await web3.eth.getBalance(account)
             );
-            let ticketCount = await instance.getTicketCount();
+            let ticketCount = (await instance.getTicketCount()).toNumber();
             let ticketPrice = web3.utils.fromWei(await instance.ticketPrice());
             let eventState = (await instance.state()).toNumber();
             eventState = eventState === 0 ? "Open" : "Closed";
@@ -68,7 +68,7 @@ window.App = {
             document.getElementById("ticketPrice").innerHTML = ticketPrice;
             document.getElementById("eventState").innerHTML = eventState;
         } catch (e) {
-            console.log("Error refreshing info", e);
+            console.error("Error refreshing info", e);
             self.setStatus("Error refreshing info; see log.");
         }
     },
@@ -77,10 +77,19 @@ window.App = {
         let self = this;
         try {
             this.setStatus("Initiating transaction... (please wait)");
-            alert("todo");
-            //let instance = TicketSales.deployed();
+            let instance = await TicketSales.deployed();
+            let ticketPrice = await instance.ticketPrice();
+            let txReceipt = await instance.buyTicket({
+                value: ticketPrice,
+                from: account
+            });
+            console.log("Buy ticket tx receipt: ", txReceipt);
+            let ticketId = txReceipt.logs[0].args.ticketId.toNumber();
+            self.refresh();
+            this.setStatus("Ticket bought. Your ticket id: " + ticketId);
+            alert("You got a ticket. Your ticket id: " + ticketId);
         } catch (e) {
-            console.log(e);
+            console.error("Buyticket error", e);
             self.setStatus("Error buying ticket coin; see log.");
         }
     }
