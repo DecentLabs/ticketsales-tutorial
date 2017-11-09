@@ -54,15 +54,22 @@ window.App = {
     refresh: async function() {
         let self = this;
         try {
-            //let instance = await TicketSales.deployed();
-            let value = await web3.eth.getBalance(account);
-            let balanceElement = document.getElementById("balance");
-            let accountElement = document.getElementById("account");
-            accountElement.innerHTML = account;
-            balanceElement.innerHTML = web3.utils.fromWei(value.valueOf());
+            let instance = await TicketSales.deployed();
+            let balance = web3.utils.fromWei(
+                await web3.eth.getBalance(account)
+            );
+            let ticketCount = await instance.getTicketCount();
+            let ticketPrice = web3.utils.fromWei(await instance.ticketPrice());
+            let eventState = (await instance.state()).toNumber();
+            eventState = eventState === 0 ? "Open" : "Closed";
+            document.getElementById("account").innerHTML = account;
+            document.getElementById("balance").innerHTML = balance;
+            document.getElementById("ticketCount").innerHTML = ticketCount;
+            document.getElementById("ticketPrice").innerHTML = ticketPrice;
+            document.getElementById("eventState").innerHTML = eventState;
         } catch (e) {
-            console.log(e);
-            self.setStatus("Error getting balance; see log.");
+            console.log("Error refreshing info", e);
+            self.setStatus("Error refreshing info; see log.");
         }
     },
 
