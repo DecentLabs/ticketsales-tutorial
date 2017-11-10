@@ -22,7 +22,7 @@ window.App = {
     start: function() {
         let self = this;
 
-        // Bootstrap the MetaCoin abstraction for Use.
+        // Bootstrap the contract abstraction for Use.
         TicketSales.setProvider(web3.currentProvider);
 
         // Get the initial account balance so it can be displayed.
@@ -104,10 +104,10 @@ window.addEventListener("load", function() {
         // throw new Error("No web3 detected.");
         // set the provider you want from Web3.providers
         console.debug(
-            "No web3 detected. Falling back to http://localhost:8545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask"
+            "No web3 detected. Falling back to http://localhost:9545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask"
         );
         web3 = new Web3(
-            new Web3.providers.HttpProvider("http://localhost:8545")
+            new Web3.providers.HttpProvider("http://localhost:9545")
         );
     }
 
