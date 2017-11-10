@@ -25,10 +25,6 @@ contract TicketSales {
         return this.balance;
     }
 
-    function getTicketCount() external view returns(uint ticketCount) {
-        return tickets.length;
-    }
-
     event ticketBought(uint ticketId, address ticketHolder);
     function buyTicket() public payable returns (uint ticketId) {
         require(state == State.Open);

@@ -21,11 +21,6 @@ contract("TicketSales tests", accounts => {
             balBefore.toNumber() + ticketPrice.toNumber(),
             "contract should get ticketPrice"
         );
-        assert.equal(
-            await ticketSales.getTicketCount(),
-            1,
-            "ticket count should be 1 after 1st ticket bought"
-        );
     });
     it("should not be possible to buy ticket with incorrect price");
     it("should be possible to refund a ticket");
