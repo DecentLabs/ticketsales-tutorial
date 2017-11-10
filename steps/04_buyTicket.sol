@@ -21,30 +21,11 @@ contract TicketSales {
         ticketPrice = _ticketPrice;
     }
 
-    function getBalance() external view returns(uint balance) {
-        return this.balance;
-    }
-
-    function getTicketCount() external view returns(uint ticketCount) {
-        return tickets.length;
-    }
-
-    event ticketBought(uint ticketId, address ticketHolder);
     function buyTicket() public payable returns (uint ticketId) {
         require(state == State.Open);
-        require( msg.value == ticketPrice);
+        require(msg.value == ticketPrice);
         var ticket = Ticket(msg.sender, ticketPrice);
         ticketId = tickets.push(ticket) - 1;
-        ticketBought(ticketId, msg.sender);
-    }
-
-    function refund(uint ticketId) public  {
-        require(state == State.Open);
-        var ticket = tickets[ticketId]; // no bounds check (will return empty struct)
-        require(ticket.holder == msg.sender);
-        require(ticket.paid > 0);
-        ticket.paid = 0;
-        msg.sender.transfer(ticket.paid); 
     }
 
     function closeSales() public {

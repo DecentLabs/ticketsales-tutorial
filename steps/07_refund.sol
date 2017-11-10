@@ -43,8 +43,8 @@ contract TicketSales {
         var ticket = tickets[ticketId]; // no bounds check (will return empty struct)
         require(ticket.holder == msg.sender);
         require(ticket.paid > 0);
+        msg.sender.transfer(ticket.paid);  // Don't do this
         ticket.paid = 0;
-        msg.sender.transfer(ticket.paid); 
     }
 
     function closeSales() public {
