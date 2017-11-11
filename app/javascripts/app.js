@@ -19,31 +19,40 @@ var accounts;
 var account;
 
 window.App = {
-    start: function() {
+    start: async function() {
         let self = this;
+        try {
+            // Bootstrap the contract abstraction for Use.
+            TicketSales.setProvider(web3.currentProvider);
 
-        // Bootstrap the contract abstraction for Use.
-        TicketSales.setProvider(web3.currentProvider);
-
-        // Get the initial account balance so it can be displayed.
-        web3.eth.getAccounts(function(err, accs) {
-            if (err != null) {
-                alert("There was an error fetching your accounts.");
-                return;
+            // dirty workaround for web3@1.0.0 bug with localhost & testrpc
+            //   see: https://github.com/trufflesuite/truffle-contract/issues/56#issuecomment-331299987
+            if (typeof TicketSales.currentProvider.sendAsync !== "function") {
+                TicketSales.currentProvider.sendAsync = function() {
+                    return TicketSales.currentProvider.send.apply(
+                        TicketSales.currentProvider,
+                        arguments
+                    );
+                };
             }
 
-            if (accs.length == 0) {
-                alert(
-                    "Couldn't get any accounts! Make sure your Ethereum client is configured correctly."
-                );
-                return;
-            }
+            // Get the initial account balance so it can be displayed.
+            accounts = await web3.eth.getAccounts();
+        } catch (error) {
+            console.error("App.start error", error);
+            alert(
+                "There was an error fetching your accounts, check console logs."
+            );
+        }
 
-            accounts = accs;
-            account = accounts[0];
-
-            self.refresh();
-        });
+        if (accounts.length == 0) {
+            alert(
+                "Couldn't get any accounts! Make sure your Ethereum client is configured correctly."
+            );
+            return;
+        }
+        account = accounts[0];
+        self.refresh();
     },
 
     setStatus: function(message) {
