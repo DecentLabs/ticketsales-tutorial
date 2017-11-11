@@ -36,10 +36,11 @@ contract TicketSales {
 
     function refund(uint ticketId) public  {
         require(state == State.Open);
-        var ticket = tickets[ticketId]; // no bounds check (will return empty struct)
+        Ticket storage ticket = tickets[ticketId]; // reverts if out of bound
         require(ticket.holder == msg.sender);
         require(ticket.paid > 0);
-        msg.sender.transfer(ticket.paid);  // Don't do this
+        var amount = ticket.paid;
+        msg.sender.transfer(amount); // what's the problem?
         ticket.paid = 0;
     }
 
