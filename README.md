@@ -11,7 +11,7 @@ _by_
 1. [nodejs](https://nodejs.org/en/download/) (tested with version 8.9.1)
 1. node version manager: `npm install -g n`
 1. Install node: `n 8.9.1`
-1. `npm install -g ethereumjs-testrpc@6.0.3`
+1. `npm install -g ethereumjs-testrpc@4.1.3`
 1. `npm install -g truffle@4.0.1`
 1. `git clone https://github.com/DecentLabs/ticketsales-tutorial.git`
 1. `cd ticketsales-tutorial`
