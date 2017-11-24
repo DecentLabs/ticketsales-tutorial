@@ -20,12 +20,13 @@ _by_
 ## Run
 
 1. `./runtestrpc.sh`
-1. `truffle migrate`
+1. `truffle migrate` or `truffle migrate --reset` for redeploy
 1. `npm run dev`
 
 ## Authors
 
 * [szerintedmi](https://github.com/szerintedmi)
+* [phraktle](https://github.com/phraktle)
 
 ## Licence
 

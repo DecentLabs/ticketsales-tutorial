@@ -14,6 +14,7 @@ contract TicketSales {
     uint public ticketPrice;
 
     Ticket[] public tickets;
+    mapping(address => uint) public affiliates; // affiliate address ==> total affiliate fee
 
     function TicketSales(uint _ticketPrice) public {
         require(_ticketPrice > 0);
@@ -29,27 +30,34 @@ contract TicketSales {
     function buyTicket() public payable returns (uint ticketId) {
         require(state == State.Open);
         require(msg.value == ticketPrice);
-        Ticket memory ticket = Ticket(msg.sender, ticketPrice); // pointer to memory
+
+        if (affiliate != 0) {
+            uint fee = msg.value / 100; // 1% affiliate fee.
+            affiliates[msg.sender] += fee; //  overflow check not needed
+            totalAffiliateFees += fee; //  overflow check not needed
+        }
+
+        Ticket memory ticket = Ticket(msg.sender, ticketPrice);
         ticketId = tickets.push(ticket) - 1;
         ticketBought(ticketId, msg.sender);
     }
 
-    function refund(uint ticketId) public {
+    function refund(uint ticketId) public  {
         require(state == State.Open);
         Ticket storage ticket = tickets[ticketId]; // reverts if out of bound
         require(ticket.holder == msg.sender);
         require(ticket.paid > 0);
-        uint amount = ticket.paid;
-        // can you spot the issue below?
-        msg.sender.transfer(amount);
+        var amount = ticket.paid;
         ticket.paid = 0;
+        msg.sender.transfer(amount);
     }
 
     function closeSales() public {
         require(msg.sender == owner);
         require(state == State.Open);
         state = State.Closed;
-        owner.transfer(this.balance);
+        uint amount = this.balance - totalAffiliateFees;
+        owner.transfer(amount);
     }
 
 }
