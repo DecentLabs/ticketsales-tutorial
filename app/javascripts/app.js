@@ -67,7 +67,9 @@ window.App = {
             let balance = web3.utils.fromWei(
                 await web3.eth.getBalance(account)
             );
-            let ticketPrice = web3.utils.fromWei(await instance.ticketPrice());
+            let ticketPrice = web3.utils.fromWei(
+                (await instance.ticketPrice()).toString()
+            );
             let eventState = (await instance.state()).toNumber();
             eventState = eventState === 0 ? "Open" : "Closed";
             document.getElementById("account").innerHTML = account;
