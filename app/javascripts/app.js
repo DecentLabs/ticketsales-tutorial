@@ -86,7 +86,7 @@ window.App = {
             this.setStatus("Initiating transaction... (please wait)");
             let instance = await TicketSales.deployed();
             let ticketPrice = await instance.ticketPrice();
-            let txReceipt = await instance.buyTicket({
+            let txReceipt = await instance.buyTicket(0, {
                 value: ticketPrice,
                 from: account
             });
