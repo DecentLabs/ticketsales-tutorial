@@ -36,7 +36,7 @@ contract TicketSales {
         uint fee = 0;
         if (affiliate != 0) {
             fee = msg.value / 100; // 1% affiliate fee.
-            affiliates[msg.sender] += fee; //  overflow check not needed
+            affiliates[affiliate] += fee; //  overflow check not needed
             totalAffiliateFees += fee; //  overflow check not needed
         }
 
