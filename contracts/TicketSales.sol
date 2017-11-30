@@ -23,7 +23,7 @@ contract TicketSales {
         ticketPrice = _ticketPrice;
     }
 
-    function getBalance() external view returns(uint balance) {
+    function getBalance() public view returns(uint balance) {
         return this.balance;
     }
 
