@@ -27,27 +27,29 @@ contract TicketSales {
     }
 
     event ticketBought(uint ticketId, address ticketHolder);
-    function buyTicket() public payable returns (uint ticketId) {
+    function buyTicket(address affiliate) public payable returns (uint ticketId) {
         require(state == State.Open);
         require(msg.value == ticketPrice);
 
+        uint fee = 0;
         if (affiliate != 0) {
-            uint fee = msg.value / 100; // 1% affiliate fee.
-            affiliates[msg.sender] += fee; //  overflow check not needed
+            fee = msg.value / 100; // 1% affiliate fee.
+            affiliates[affiliate] += fee; //  overflow check not needed
             totalAffiliateFees += fee; //  overflow check not needed
         }
 
-        Ticket memory ticket = Ticket(msg.sender, ticketPrice);
+        Ticket memory ticket = Ticket(msg.sender, ticketPrice - fee);
         ticketId = tickets.push(ticket) - 1;
         ticketBought(ticketId, msg.sender);
+        return ticketId;
     }
 
-    function refund(uint ticketId) public  {
+    function refund(uint ticketId) public {
         require(state == State.Open);
         Ticket storage ticket = tickets[ticketId]; // reverts if out of bound
         require(ticket.holder == msg.sender);
         require(ticket.paid > 0);
-        var amount = ticket.paid;
+        uint amount = ticket.paid;
         ticket.paid = 0;
         msg.sender.transfer(amount);
     }
