@@ -25,13 +25,17 @@ contract TicketSales {
         return this.balance;
     }
 
+    // **************************
     event ticketBought(uint ticketId, address ticketHolder);
+    // ^^^^^^^^^^^^^^^^^^^^^^^^^^
     function buyTicket() public payable returns (uint ticketId) {
         require(state == State.Open);
         require(msg.value == ticketPrice);
         var ticket = Ticket(msg.sender, ticketPrice);
         ticketId = tickets.push(ticket) - 1;
+        // **************************
         ticketBought(ticketId, msg.sender);
+        // ^^^^^^^^^^^^^^^^^^^^^^^^^^
     }
 
     function closeSales() public {

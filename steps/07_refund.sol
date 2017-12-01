@@ -34,6 +34,7 @@ contract TicketSales {
         ticketBought(ticketId, msg.sender);
     }
 
+    // **************************
     function refund(uint ticketId) public {
         require(state == State.Open);
         Ticket storage ticket = tickets[ticketId]; // reverts if out of bound
@@ -44,6 +45,7 @@ contract TicketSales {
         msg.sender.transfer(amount);
         ticket.paid = 0;
     }
+    // ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     function closeSales() public {
         require(msg.sender == owner);

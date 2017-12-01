@@ -20,10 +20,12 @@ contract TicketSales {
         owner = msg.sender;
         ticketPrice = _ticketPrice;
     }
-
+    
+    // **************************
     function getBalance() public view returns(uint balance) {
         return this.balance;
     }
+    // ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     function buyTicket() public payable returns (uint ticketId) {
         require(state == State.Open);

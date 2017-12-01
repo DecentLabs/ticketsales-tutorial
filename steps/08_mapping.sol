@@ -14,8 +14,10 @@ contract TicketSales {
     uint public ticketPrice;
 
     Ticket[] public tickets;
+    // **************************
     mapping(address => uint) public affiliates; // affiliate address ==> total affiliate fee
-
+    // ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    
     function TicketSales(uint _ticketPrice) public {
         require(_ticketPrice > 0);
         owner = msg.sender;
@@ -31,6 +33,7 @@ contract TicketSales {
         require(state == State.Open);
         require(msg.value == ticketPrice);
 
+        // **************************
         uint fee = 0;
         if (affiliate != 0) {
             fee = msg.value / 100; // 1% affiliate fee.
@@ -41,6 +44,7 @@ contract TicketSales {
         Ticket memory ticket = Ticket(msg.sender, ticketPrice - fee);
         ticketId = tickets.push(ticket) - 1;
         ticketBought(ticketId, msg.sender);
+        // ^^^^^^^^^^^^^^^^^^^^^^^^^^
         return ticketId;
     }
 

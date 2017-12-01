@@ -6,6 +6,8 @@ contract TicketSales {
 
     address public owner;
     State public state = State.Open;
+
+    // **************************
     uint public ticketPrice;
 
     function TicketSales(uint _ticketPrice) public {
@@ -13,6 +15,7 @@ contract TicketSales {
         owner = msg.sender;
         ticketPrice = _ticketPrice;
     }
+    // ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     function closeSales() public {
         require(msg.sender == owner);
