@@ -31,7 +31,7 @@ contract TicketSales {
         require(msg.value == ticketPrice);
         Ticket memory ticket = Ticket(msg.sender, ticketPrice); // pointer to memory
         ticketId = tickets.push(ticket) - 1;
-        ticketBought(ticketId, msg.sender);
+        emit ticketBought(ticketId, msg.sender);
     }
 
     // **************************

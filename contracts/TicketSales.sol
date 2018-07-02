@@ -42,7 +42,7 @@ contract TicketSales {
 
         Ticket memory ticket = Ticket(msg.sender, ticketPrice - fee);
         ticketId = tickets.push(ticket) - 1;
-        ticketBought(ticketId, msg.sender);
+        emit ticketBought(ticketId, msg.sender);
         return ticketId;
     }
 

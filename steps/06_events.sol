@@ -34,7 +34,7 @@ contract TicketSales {
         var ticket = Ticket(msg.sender, ticketPrice);
         ticketId = tickets.push(ticket) - 1;
         // **************************
-        ticketBought(ticketId, msg.sender);
+        emit ticketBought(ticketId, msg.sender);
         // ^^^^^^^^^^^^^^^^^^^^^^^^^^
     }
 
