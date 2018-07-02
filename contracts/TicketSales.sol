@@ -24,7 +24,7 @@ contract TicketSales {
     }
 
     function getBalance() public view returns(uint balance) {
-        return this.balance;
+        return address(this).balance;
     }
 
     event ticketBought(uint ticketId, address ticketHolder);
@@ -60,7 +60,7 @@ contract TicketSales {
         require(msg.sender == owner);
         require(state == State.Open);
         state = State.Closed;
-        uint amount = this.balance - totalAffiliateFees;
+        uint amount = address(this).balance - totalAffiliateFees;
         owner.transfer(amount);
     }
 

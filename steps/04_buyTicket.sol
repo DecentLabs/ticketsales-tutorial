@@ -39,7 +39,7 @@ contract TicketSales {
         require(state == State.Open);
         state = State.Closed;
         // **************************
-        owner.transfer(this.balance);
+        owner.transfer(address(this).balance);
         // ^^^^^^^^^^^^^^^^^^^^^^^^^^
     }
 

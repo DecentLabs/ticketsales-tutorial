@@ -23,7 +23,7 @@ contract TicketSales {
     
     // **************************
     function getBalance() public view returns(uint balance) {
-        return this.balance;
+        return address(this).balance;
     }
     // ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -38,7 +38,7 @@ contract TicketSales {
         require(msg.sender == owner);
         require(state == State.Open);
         state = State.Closed;
-        owner.transfer(this.balance);
+        owner.transfer(address(this).balance);
     }
 
 }
