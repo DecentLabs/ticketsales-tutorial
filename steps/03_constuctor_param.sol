@@ -10,7 +10,7 @@ contract TicketSales {
     // **************************
     uint public ticketPrice;
 
-    function TicketSales(uint _ticketPrice) public {
+    constructor(uint _ticketPrice) public {
         require(_ticketPrice > 0);
         owner = msg.sender;
         ticketPrice = _ticketPrice;

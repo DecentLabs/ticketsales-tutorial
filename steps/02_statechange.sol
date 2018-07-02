@@ -11,7 +11,7 @@ contract TicketSales {
     State public state = State.Open;
     // ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    function TicketSales() public {
+    constructor() public {
         owner = msg.sender;
     }
 

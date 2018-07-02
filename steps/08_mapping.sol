@@ -19,7 +19,7 @@ contract TicketSales {
     mapping(address => uint) public affiliates; // affiliate address ==> total affiliate fee
     // ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    function TicketSales(uint _ticketPrice) public {
+    constructor(uint _ticketPrice) public {
         require(_ticketPrice > 0);
         owner = msg.sender;
         ticketPrice = _ticketPrice;
