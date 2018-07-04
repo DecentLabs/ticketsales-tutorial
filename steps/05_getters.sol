@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.24;
 
 contract TicketSales {
 
@@ -15,7 +15,7 @@ contract TicketSales {
 
     Ticket[] public tickets;
 
-    function TicketSales(uint _ticketPrice) public {
+    constructor(uint _ticketPrice) public {
         require(_ticketPrice > 0);
         owner = msg.sender;
         ticketPrice = _ticketPrice;
@@ -23,7 +23,7 @@ contract TicketSales {
     
     // **************************
     function getBalance() public view returns(uint balance) {
-        return this.balance;
+        return address(this).balance;
     }
     // ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -38,7 +38,7 @@ contract TicketSales {
         require(msg.sender == owner);
         require(state == State.Open);
         state = State.Closed;
-        owner.transfer(this.balance);
+        owner.transfer(address(this).balance);
     }
 
 }

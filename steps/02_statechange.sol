@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.24;
 
 contract TicketSales {
 
@@ -11,7 +11,7 @@ contract TicketSales {
     State public state = State.Open;
     // ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    function TicketSales() public {
+    constructor() public {
         owner = msg.sender;
     }
 

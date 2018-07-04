@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.24;
 
 contract TicketSales {
 
@@ -17,14 +17,14 @@ contract TicketSales {
     Ticket[] public tickets;
     mapping(address => uint) public affiliates; // affiliate address ==> total affiliate fee
 
-    function TicketSales(uint _ticketPrice) public {
+    constructor(uint _ticketPrice) public {
         require(_ticketPrice > 0);
         owner = msg.sender;
         ticketPrice = _ticketPrice;
     }
 
     function getBalance() public view returns(uint balance) {
-        return this.balance;
+        return address(this).balance;
     }
 
     event ticketBought(uint ticketId, address ticketHolder);
@@ -42,7 +42,7 @@ contract TicketSales {
 
         Ticket memory ticket = Ticket(msg.sender, ticketPrice - fee);
         ticketId = tickets.push(ticket) - 1;
-        ticketBought(ticketId, msg.sender);
+        emit ticketBought(ticketId, msg.sender);
         return ticketId;
     }
 
@@ -60,7 +60,7 @@ contract TicketSales {
         require(msg.sender == owner);
         require(state == State.Open);
         state = State.Closed;
-        uint amount = this.balance - totalAffiliateFees;
+        uint amount = address(this).balance - totalAffiliateFees;
         owner.transfer(amount);
     }
 
